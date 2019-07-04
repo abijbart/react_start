@@ -1,3 +1,4 @@
+const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -31,9 +32,28 @@ module.exports = {
             },
           },
           {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [autoprefixer()],
+              sourceMap: true,
+            },
+          },
+          {
             loader: 'sass-loader',
             options: {
               sourceMap: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              useRelativePath: true,
+              name: '[name].[ext]',
             },
           },
         ],
@@ -47,4 +67,8 @@ module.exports = {
       filename: './index.html',
     }),
   ],
+  devServer: {
+    hot: true,
+  },
+
 };
